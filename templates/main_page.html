@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>Simple evaluator</title>
+        <link rel="stylesheet" type="text/css" href="../static/input.css">
 		<script type="text/javascript">
 			function setFocusToTextBox() {
  			   document.getElementById("input").focus();}
@@ -10,8 +11,10 @@
 		<center>
 			<form action = "{{path}}login" method = "post">
 	           <p>Enter expression:</p>
-	           <p><input type = "text" name = "nm" id="input" /></p>
-	           <p><input type = "submit" value = "Evaluate!" /></p>
+	           <p>
+                   <input type = "text" class="de-input" placeholder="input expression..." name = "nm" id="input" />
+                   <input type="submit" value = "Evaluate!" />
+               </p>
 	        </form>
     	</center>
 	</body>

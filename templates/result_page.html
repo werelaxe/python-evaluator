@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>Simple evaluator</title>
+        <link rel="stylesheet" type="text/css" href="../static/input.css">
 		<script type="text/javascript">
 			if (!{{done}})
 				setInterval(function tick() { location.reload(); }, 10000);
@@ -12,8 +13,10 @@
 		<center>
 			<p>{{result}}</p>
 			<form action = "{{path}}login" method = "post">
-	           	<p><input type = "text" name = "nm" id="input" /></p>
-	           	<p><input type = "submit" value = "Evaluate again!" /></p>
+                <p>
+	           	    <input type = "text" class="de-input" placeholder="input expression..." name = "nm" id="input" />
+	           	    <input type="submit" class="solid" value = "Evaluate again!" />
+                </p>
 	        </form>
     	</center>
 	</body>
