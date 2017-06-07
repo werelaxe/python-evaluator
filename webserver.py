@@ -52,8 +52,3 @@ def login():
         UID_TABLE[uid] = expression
         EVAL_SERVER.eval(expression)
         return redirect(url_for('result', uid=uid))
-
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0")
-
