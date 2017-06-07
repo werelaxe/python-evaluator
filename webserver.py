@@ -3,6 +3,7 @@ app = Flask(__name__)
 from binascii import hexlify
 from os import urandom
 import eval_server
+from datetime import datetime
 
 EVAL_SERVER = eval_server.EvalServer()
 UID_TABLE = {}
@@ -11,7 +12,8 @@ SUPPORTED_TYPES = [int, str, float, complex, bool]
 
 def create_database_table():
     eval_database = EVAL_SERVER.database()
-    return map(lambda itm: (itm[0], itm[1], str(eval_database[itm[1]].done())), UID_TABLE.items())
+    lst = map(lambda itm: (itm[0],) + itm[1], UID_TABLE.items())
+    return map(lambda itm: (itm[0], itm[1], itm[2], itm[3], str(eval_database[itm[1]].done())), lst)
 
 
 def generate_uid():
@@ -20,7 +22,7 @@ def generate_uid():
 
 @app.route('/result/<uid>')
 def result(uid):
-    expression = UID_TABLE[uid]
+    expression = UID_TABLE[uid][0]
     res = EVAL_SERVER.get_result(expression)
     done = "true"
     if res is not None:
@@ -49,6 +51,6 @@ def login():
     if request.method == 'POST':
         expression = request.form['nm']
         uid = generate_uid()
-        UID_TABLE[uid] = expression
+        UID_TABLE[uid] = expression, request.remote_addr, datetime.now().strftime('%Y.%m.%d %H:%M:%S')
         EVAL_SERVER.eval(expression)
         return redirect(url_for('result', uid=uid))

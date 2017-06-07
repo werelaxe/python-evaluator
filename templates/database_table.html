@@ -5,10 +5,10 @@
 	</head>
 	<body>
 		<center>
-			<table>
-			<tr><th>user id</th><th>expression</th><th>is complete</th></tr>
-				{% for uid, expr, res in table %}
-            	<tr><td width="28%" align="center">{{ uid }}</td><td align="center">{{ expr }}</td><td width="4%" align="center">{{ res }}</td></tr>
+			<table width="100%">
+			<tr><th>user id</th><th>expression</th><th>ip address</th><th>time</th><th>is complete</th></tr>
+				{% for uid, expr, ipaddr, time, res in table %}
+            	<tr><td>{{ uid }}</td><td>{{ expr }}</td><td>{{ ipaddr }}</td><td>{{ time }}</td><td>{{ res }}</td></tr>
          		{% endfor %}
 			</table>
     	</center>
