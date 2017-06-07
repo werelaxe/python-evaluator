@@ -1,12 +1,16 @@
 <html>
 	<head>
 		<title>Simple evaluator</title>
+		<script type="text/javascript">
+			function setFocusToTextBox() {
+ 			   document.getElementById("input").focus();}
+		</script>
 	</head>
-	<body>
+	<body onload="setFocusToTextBox()">
 		<center>
 			<form action = "{{path}}login" method = "post">
 	           <p>Enter expression:</p>
-	           <p><input type = "text" name = "nm" /></p>
+	           <p><input type = "text" name = "nm" id="input" /></p>
 	           <p><input type = "submit" value = "Evaluate!" /></p>
 	        </form>
     	</center>

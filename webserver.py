@@ -6,6 +6,12 @@ import eval_server
 
 EVAL_SERVER = eval_server.EvalServer()
 UID_TABLE = {}
+SUPPORTED_TYPES = [int, str, float, complex, bool]
+
+
+def create_database_table():
+    eval_database = EVAL_SERVER.database()
+    return map(lambda itm: (itm[0], itm[1], str(eval_database[itm[1]].done())), UID_TABLE.items())
 
 
 def generate_uid():
@@ -16,17 +22,26 @@ def generate_uid():
 def result(uid):
     expression = UID_TABLE[uid]
     res = EVAL_SERVER.get_result(expression)
+    done = "true"
     if res is not None:
-        if type(res) == int:
-            return "{} = {}".format(expression, res)
+        if type(res) in SUPPORTED_TYPES:
+            result = "{} = {}".format(expression, res)
         else:
-            return "Something is wrong. Don't use ascii letters and check your syntax."
-    return "{} is evaluating".format(expression)
+            result = "Something is wrong. Check your syntax."
+    else:
+        result = "{} is evaluating".format(expression)
+        done = "false"
+    return render_template("result_page.html", path=request.url_root, result=result, done=done)
 
 
 @app.route("/")
-def mainpage():
-    return render_template("mainpage.html", path=request.url)
+def main_page():
+    return render_template("main_page.html", path=request.url)
+
+
+@app.route("/database")
+def statistics():
+    return render_template("database_table.html", table=create_database_table())
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -40,6 +55,5 @@ def login():
 
 
 if __name__ == '__main__':
-
     app.run(host="0.0.0.0")
 

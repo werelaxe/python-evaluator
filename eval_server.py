@@ -5,12 +5,10 @@ ASCII_LETTERS = set(ascii_letters)
 
 
 def secure_eval(expression):
-    if set(expression).intersection(ASCII_LETTERS):
-        return "abort"
     try:
         return eval(expression)
-    except Exception:
-        return "abort"
+    except Exception as e:
+        return e
 
 
 class EvalServer:
@@ -25,3 +23,10 @@ class EvalServer:
     def get_result(self, expression):
         if self._database[expression].done():
             return self._database[expression].result()
+
+    def __str__(self):
+        attrs = filter(lambda x: "__" not in x, dir(self))
+        return "\n".join("{} = {}".format(attr, getattr(self, attr)) for attr in attrs)
+
+    def database(self):
+        return self._database
