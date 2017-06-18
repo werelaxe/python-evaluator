@@ -1,13 +1,12 @@
 from flask import Flask, redirect, url_for, request, render_template
-app = Flask(__name__)
 from binascii import hexlify
 from os import urandom
 import eval_server
 from datetime import datetime
 
+app = Flask(__name__)
 EVAL_SERVER = eval_server.EvalServer()
 UID_TABLE = {}
-SUPPORTED_TYPES = [int, str, float, complex, bool]
 
 
 def create_database_table():
@@ -26,10 +25,7 @@ def result(uid):
     res = EVAL_SERVER.get_result(expression)
     done = "true"
     if res is not None:
-        if type(res) in SUPPORTED_TYPES:
-            result = "{} = {}".format(expression, res)
-        else:
-            result = "Something is wrong. Check your syntax."
+        result = "{} = {}".format(expression, res)
     else:
         result = "{} is evaluating".format(expression)
         done = "false"

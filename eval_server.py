@@ -3,6 +3,8 @@ from string import ascii_letters
 
 ASCII_LETTERS = set(ascii_letters)
 
+FORBIDDEN_TOKENS = ["list", "dict", "set"]
+
 
 def secure_eval(expression):
     try:
