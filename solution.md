@@ -9,4 +9,7 @@ Press Enter.
 Then connect to server via netcat: "nc host 55555". It will send us a flag.
 
 ## Simple solution
-Just type "open('flag').read()". :)
+Just type it:
+open('flag').read()
+
+:)
