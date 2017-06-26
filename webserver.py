@@ -25,7 +25,10 @@ def result(uid):
     res = EVAL_SERVER.get_result(expression)
     done = "true"
     if res is not None:
-        result = "{} = {}".format(expression, res)
+        if res == BaseException:
+            result = "Something is wrong. Check your syntax. Don't use too much memory."
+        else:
+            result = "{} = {}".format(expression, res)
     else:
         result = "{} is evaluating".format(expression)
         done = "false"

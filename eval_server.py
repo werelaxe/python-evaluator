@@ -1,26 +1,29 @@
 from concurrent.futures import ProcessPoolExecutor
-from string import ascii_letters
-
-ASCII_LETTERS = set(ascii_letters)
-
-FORBIDDEN_TOKENS = ["list", "dict", "set"]
+import resource
 
 
-def secure_eval(expression):
+MAX_PROCESSES_COUNT = 256
+MEMORY_LIMIT_IN_MEGABYTES = 60
+MEMORY_LIMIT_IN_BYTES = MEMORY_LIMIT_IN_MEGABYTES * 1024 * 1024
+
+
+def smart_eval(expression):
+    resource.setrlimit(resource.RLIMIT_AS, (MEMORY_LIMIT_IN_BYTES,) * 2)
     try:
         return eval(expression)
-    except Exception as e:
-        return e
+    except Exception:
+        return BaseException
 
 
 class EvalServer:
     def __init__(self):
         self._database = {}
-        self._client_handler = ProcessPoolExecutor(256)
+        self._client_handler = ProcessPoolExecutor(MAX_PROCESSES_COUNT)
 
     def eval(self, expression):
         if expression not in self._database:
-            self._database[expression] = self._client_handler.submit(secure_eval, expression)
+            future_object = self._client_handler.submit(smart_eval, expression)
+            self._database[expression] = future_object
 
     def get_result(self, expression):
         if self._database[expression].done():
