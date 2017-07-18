@@ -1,6 +1,7 @@
 from concurrent.futures import ProcessPoolExecutor
 import resource
 from collections import Hashable
+from traceback import print_stack
 
 
 PERMITTED_RESULT_TYPES = [int, float, complex, bool, str]
@@ -12,14 +13,14 @@ MEMORY_LIMIT_IN_BYTES = MEMORY_LIMIT_IN_MEGABYTES * 1024 * 1024
 def smart_eval(expression):
     resource.setrlimit(resource.RLIMIT_AS, (MEMORY_LIMIT_IN_BYTES,) * 2)
     try:
-        result = eval(expression)
+        result = eval(expression, {}, {})
         if not isinstance(result, Hashable):
             raise ValueError("Unhashable type not supported")
         if type(result) not in PERMITTED_RESULT_TYPES:
             raise ValueError("Type not permitted")
         return result
     except Exception as exc:
-        return BaseException
+        print("Exception while calculating: {}".format(exc))
 
 
 class EvalServer:

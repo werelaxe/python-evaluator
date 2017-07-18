@@ -2,7 +2,7 @@ import webserver
 
 
 def main():
-    webserver.app.run(host="0.0.0.0", port=80)
+    webserver.start_web_server(port=8080)
 
 
 if __name__ == '__main__':
