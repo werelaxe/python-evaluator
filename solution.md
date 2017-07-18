@@ -2,7 +2,7 @@
 
 Type this in eval textbox:
 
-* __import__("subprocess").check_output(["ls"])  # find "interesting" file
+* \_\_import\_\_("subprocess").check_output(["ls"])  # find "interesting" file
 
 * open("very_long_and_complex_file_name").read()  # read "interesting" file
 
