@@ -1,5 +1,6 @@
 import socket
 from ipaddress import IPv4Address
+from subprocess import check_output
 
 BUFFER_SIZE = 10240
 
@@ -11,7 +12,7 @@ def start_flag_server(port):
         while True:
             data, addr = process_socket.recvfrom(BUFFER_SIZE)
             if IPv4Address(addr[0]).is_loopback:
-                data = b"FILTER_ALL_USER_INPUT_DUDE"
+                data = check_output("./gen_flag")
             else:
                 data = b"It is a private server. Not for evil hackers!"
             process_socket.sendto(data, addr)

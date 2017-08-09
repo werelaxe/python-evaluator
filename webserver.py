@@ -21,7 +21,7 @@ def generate_random_hex_sequence(length=32):
 ADMIN_PASSWORD = generate_random_hex_sequence()
 
 
-def start_web_server(host="0.0.0.0", port=80):
+def start_web_server(host="0.0.0.0", port=8080):
     print("Password for watching database: {}".format(ADMIN_PASSWORD))
     app.run(host=host, port=port)
 
